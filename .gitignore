@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+
+# Build artifacts
+build/
+*.dmg
+DerivedData/
+*.xcarchive
+
+# Swift Package Manager
+.build/
+Prototype/.build/
+
+# Xcode user state (contains local usernames and paths)
+xcuserdata/
+*.xcuserdatad/
+*.xcuserstate
+
+# Claude Code local settings
+.claude/

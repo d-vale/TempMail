@@ -1,0 +1,125 @@
+# Private Mailtemp
+
+**Disposable email addresses on your own domain — a native macOS menu bar app.**
+
+Instead of trusting a third-party temp-mail service, Private Mailtemp turns any
+mailbox with a **catch-all** on your own domain into a private disposable-address
+system. One click generates a fresh address like `maple-cloud-4821@your-domain.com`,
+copies it to the clipboard, and incoming mail shows up in the app (with macOS
+notifications) within ~30 seconds.
+
+[**⬇ Download the latest DMG**](https://github.com/d-vale/TempMail/releases/latest/download/Private-Mailtemp.dmg)
+— or browse all [releases](https://github.com/d-vale/TempMail/releases).
+
+## How it works
+
+Every address you invent on your domain (`anything@your-domain.com`) is delivered
+to a single catch-all mailbox. The app reads that mailbox over IMAP, groups
+messages by the address they were actually sent to, and shows each generated
+address as its own inbox. Mail sent to addresses you never generated lands in
+an "Other recipients" bucket.
+
+Your IMAP password is stored in the macOS Keychain — never anywhere else. The
+app is sandboxed and talks only to the IMAP server you configure.
+
+## Requirements
+
+- A domain you own, hosted with any email provider that supports:
+  - a **catch-all** (wildcard) alias, and
+  - **IMAP** access (Infomaniak, OVH, Gandi, Fastmail, and most others do).
+- macOS 26.5 or later.
+
+## Setup
+
+### 1. Prepare your mail hosting
+
+1. Create a dedicated mailbox on your domain, e.g. `catchall@your-domain.com`.
+2. In your provider's admin panel, enable the **catch-all** so that
+   `*@your-domain.com` is delivered to that mailbox.
+3. Note your provider's **IMAP server** and **port** (usually 993 with TLS) —
+   they are listed in the provider's documentation or admin panel.
+
+### 2. Install the app
+
+1. Download [`Private-Mailtemp.dmg`](https://github.com/d-vale/TempMail/releases/latest/download/Private-Mailtemp.dmg).
+2. Open the DMG and drag **Private Mailtemp** onto the **Applications** shortcut.
+3. Launch it from `/Applications`.
+
+> **Gatekeeper note:** the app is open source but not notarized (no paid Apple
+> Developer account). On first launch macOS will warn you. **Right-click the
+> app → Open → Open** once; after that it launches normally. If you prefer,
+> build it yourself from source (see below).
+
+### 3. Configure the app
+
+1. Open **Settings…** from the app window or the 📬 menu bar icon.
+2. Fill in:
+   - **Server**: your provider's IMAP host (e.g. `imap.example.com`)
+   - **Port**: `993`
+   - **Username**: your catch-all mailbox address (e.g. `catchall@your-domain.com`) —
+     the domain of generated addresses is derived from it
+   - **Password**: the mailbox password (stored in the Keychain)
+3. Click **Test connection**, then **Save**.
+4. Allow notifications when prompted.
+
+Optionally enable **Launch at login** in Settings → General.
+
+## Usage
+
+- **New address** generates `word-word-digits@your-domain.com` and copies it to
+  the clipboard — paste it straight into any signup form.
+- Mail arrives within ~30 s (IMAP polling) with a macOS notification; each
+  address shows its unread badge.
+- Messages open as HTML (remote images blocked by default, with a
+  "load remote images" button) or plain text.
+- **Other recipients** collects catch-all mail that doesn't match any generated
+  address (typos, older aliases).
+- Auto-cleanup deletes server mail older than 24 h (configurable or can be
+  disabled) once per hour.
+- Closing the window removes the Dock icon but keeps the app polling from the
+  menu bar. Only **Quit** (⌘Q) stops it.
+
+## Updates
+
+There is no auto-updater. To be notified of new versions, click **Watch →
+Custom → Releases** on this repository. Updating is just downloading the new
+DMG and replacing the app in `/Applications` — your settings and Keychain
+password are kept.
+
+## Build from source
+
+```bash
+git clone https://github.com/d-vale/TempMail.git
+cd TempMail
+./make-dmg.sh        # builds Release and produces build/Private-Mailtemp.dmg
+```
+
+Or open `private_Tempmail.xcodeproj` in Xcode and **Product → Run**.
+
+`Prototype/` contains a small CLI used to validate the IMAP/catch-all behavior:
+
+```bash
+cd Prototype
+IMAP_HOST=imap.example.com IMAP_USER=catchall@example.com swift run
+```
+
+## Technical notes
+
+- IMAP/MIME: [SwiftMail](https://github.com/Cocoanetics/SwiftMail), pinned to
+  revision `f8469b1` (both the app and the prototype).
+- Catch-all behavior: some providers rewrite `Delivered-To` to the catch-all
+  mailbox; the real target address is then read from the envelope `To`. Only a
+  message sent purely via BCC remains unattributable (it shows up under
+  "Other recipients").
+- Sandboxed, with the `com.apple.security.network.client` entitlement only.
+- Dynamic Dock icon: activation policy is `regular` while a window is open and
+  `accessory` otherwise. A pure `LSUIElement` app is never activated by macOS,
+  which made the Settings window appear behind other applications.
+- App icon is generated by `swift Tools/make-icon.swift private_Tempmail/Assets.xcassets/AppIcon.appiconset`.
+  The PNGs must be exactly the advertised pixel size — drawing via
+  `NSImage.lockFocus()` on a Retina display produces 2× output and `actool`
+  then silently rejects the whole icon set.
+
+## License
+
+[MIT](LICENSE)
