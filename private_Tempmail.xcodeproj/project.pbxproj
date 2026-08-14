@@ -260,7 +260,7 @@
 				CODE_SIGN_ENTITLEMENTS = private_Tempmail/private_Tempmail.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
@@ -270,7 +270,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "io.github.d-vale.PrivateMailtemp";
 				INFOPLIST_KEY_CFBundleDisplayName = "Private Mailtemp";
 				PRODUCT_NAME = "Private Mailtemp";
@@ -292,7 +292,7 @@
 				CODE_SIGN_ENTITLEMENTS = private_Tempmail/private_Tempmail.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
@@ -302,7 +302,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "io.github.d-vale.PrivateMailtemp";
 				INFOPLIST_KEY_CFBundleDisplayName = "Private Mailtemp";
 				PRODUCT_NAME = "Private Mailtemp";

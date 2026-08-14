@@ -62,7 +62,8 @@ app is sandboxed and talks only to the IMAP server you configure.
 3. Click **Test connection**, then **Save**.
 4. Allow notifications when prompted.
 
-Optionally enable **Launch at login** in Settings → General.
+**Launch at login** is enabled automatically on first run; turn it off any time
+in Settings → General.
 
 ## Usage
 
@@ -78,6 +79,8 @@ Optionally enable **Launch at login** in Settings → General.
   disabled) once per hour.
 - Closing the window removes the Dock icon but keeps the app polling from the
   menu bar. Only **Quit** (⌘Q) stops it.
+- When macOS starts the app at login it goes straight to that state: no window,
+  no Dock icon, just the menu bar. Launching it yourself still opens the window.
 
 ## Updates
 
